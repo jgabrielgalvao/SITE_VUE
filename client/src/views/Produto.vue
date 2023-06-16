@@ -49,14 +49,11 @@
         </template>
     </v-snackbar>
 
-    <Parcelamento ref="Parcelamento" />
 </template>
 
 
 <script>
 import bd from '@/data/bd.json'
-import Parcelamento from '@/components/Parcelamento.vue'
-import globalVariables from '@/controller/globalVariables';
 
 
 export default {

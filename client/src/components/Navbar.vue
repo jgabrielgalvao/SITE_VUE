@@ -11,9 +11,7 @@
   
     <v-navigation-drawer v-model="drawerOpen" temporary>
       <v-list>
-        <v-list-item v-for="item in menuItems" :key="item.title" @click="handleMenuItemClick(item)">
-          <v-list-item-title>{{ item.title }}</v-list-item-title>
-        </v-list-item>
+        <v-list-item>Produto</v-list-item>
       </v-list>
     </v-navigation-drawer>
   

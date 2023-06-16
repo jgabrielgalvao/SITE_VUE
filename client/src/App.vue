@@ -2,7 +2,6 @@
   <v-app>
     <v-main>
       <Navbar />
-
         <router-view />
       <Footer />
     </v-main>
@@ -37,7 +36,5 @@ export default ({
 
 
 <style>
-body {
-  background-color: #BBDEFB;
-}
+
 </style>
