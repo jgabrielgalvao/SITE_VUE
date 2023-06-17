@@ -1,5 +1,5 @@
 <template>
-    <v-app-bar color="red pa-2" :elevation="5">
+    <v-app-bar color="red pa-2" :elevation="5" scroll-behavior="elevate">
       <v-row no-gutters justify="center" align="center">
         <v-col cols="12">
           <v-title class="text-button text-white" id="titulo">
@@ -10,9 +10,10 @@
     </v-app-bar>
   
     <v-navigation-drawer v-model="drawerOpen" temporary>
-      <v-list>
-        <v-list-item>Produto</v-list-item>
-      </v-list>
+      <v-list-item v-for="item in menuItems" :key="item.title" :to="item.route">
+        <br>
+        <v-list-item-title>{{ item.title }}</v-list-item-title>
+      </v-list-item>
     </v-navigation-drawer>
   
     <Home ref="Home" v-if="false" />
@@ -29,10 +30,10 @@
       return {
         drawerOpen: false,
         menuItems: [
-          { title: "Produtos" },
-          { title: "Início" },
-          { title: "Login" }
-        ]
+      { title: "Produtos", route: "/produto" },
+      { title: "Início", route: "/inicio" },
+      { title: "Login", route: "/login" }
+    ]
       };
     },
     methods: {

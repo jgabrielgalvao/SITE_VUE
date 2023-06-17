@@ -1,41 +1,71 @@
 <template>
-    <v-card v-if="temlogin" class="popup">
-        <h1 class="text-center mt-3">Faça login</h1>
-        <div class="popup-inner">
-            <label>Email:</label>
-            <input type="email">
+    <v-card class="bg-blue mx-auto px-6 py-8" max-width="344" v-if="!temlogin">
+        <v-form v-model="form" @submit.prevent="onSubmit">
+            <label>Faça login</label>
+            <v-text-field v-model="email" :readonly="loading" :rules="[required]" class="mb-2" clearable
+                label="Email"></v-text-field>
+
+            <v-text-field v-model="password" :readonly="loading" :rules="[required]" clearable label="Password"
+                placeholder="Enter your password"></v-text-field>
+
             <br>
-            <label>Senha:</label>
-            <input type="password">
+
+            <v-btn :disabled="!form" :loading="loading" block color="success" size="large" type="submit" variant="elevated">
+                Login
+            </v-btn>
             <br>
-            <button>login</button>
-            <button>cadastre</button>
-        </div>
+            <v-btn :loading="loading" block color="success" size="large" type="submit" variant="elevated">
+                Cadastro
+            </v-btn>
+        </v-form>
     </v-card>
-    <v-card v-else class="popup">
-        <h1 class="text-center mt-3">Faça o Cadastro</h1>
-        <div class="popup-inner">
-            <label>Nome:</label>
-            <input type="text">
+
+    <v-card class="bg-blue mx-auto px-6 py-8" max-width="344" v-else>
+        <v-form v-model="form" @submit.prevent="onSubmit">
+
+            <v-text-field v-model="nome" :readonly="loading" :rules="[required]" class="mb-2" clearable
+                label="Nome"></v-text-field>
+
+            <v-text-field v-model="email" :readonly="loading" :rules="[required]" class="mb-2" clearable
+                label="Email" type="email"></v-text-field>
+
+            <v-text-field v-model="password" :readonly="loading" :rules="[required]" clearable label="Password"
+                placeholder="Enter your password" type="password"></v-text-field>
+
             <br>
-            <label>Email:</label>
-            <input type="email">
+
+            <v-btn :disabled="!form" :loading="loading" block color="success" size="large" type="submit" variant="elevated">
+                Cadastrar
+            </v-btn>
             <br>
-            <label>Senha:</label>
-            <input type="password">
-            <br>
-            <button>login</button>
-            <button>cadastre</button>
-        </div>
+            <v-btn :loading="loading" block color="success" size="large" type="submit" variant="elevated">
+                Login
+            </v-btn>
+        </v-form>
     </v-card>
 </template>
 <script>
 export default {
-    data() {
-        return {
-            temlogin: false
-        }
-    }
+    data: () => ({
+        form: false,
+        email: null,
+        password: null,
+        loading: false,
+        temlogin: false
+    }),
+
+    methods: {
+        onSubmit() {
+            if (!this.form) return
+
+            this.loading = true
+
+            setTimeout(() => (this.loading = false), 2000)
+        },
+        required(v) {
+            return !!v || 'Campo é obrigatório'
+        },
+    },
 }
 </script>
 <style>

@@ -1,7 +1,7 @@
 <template>
-    <div class="mt-4 p-2">
-        <h1 class="overlay-text">Seja bem viado</h1>
-        <div v-if="!logado">
+    <div class="mt-4 p-2 corpo">
+        <h1 class="text-center titulo">Seja bem viado</h1>
+        <div v-if="!logado" class="mt-16">
             <Popup></Popup>
         </div>
     </div>
@@ -23,8 +23,12 @@ export default{
 }
 </script>
 <style>
-body{
+.corpo{
     background-image: url('@/assets/industry.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
 }
 </style>
   

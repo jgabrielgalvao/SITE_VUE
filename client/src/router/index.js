@@ -1,11 +1,12 @@
 // Composables
 import { createRouter, createWebHistory } from 'vue-router'
+import ProdutoView from '../views/ProdutoView.vue';
 
 const routes = [
   {
     path: '/',
     name: 'Home',
-    component: () => import('@/views/Produto.vue'),
+    component: () => import('@/views/Home.vue'),
 
   },
   {
@@ -13,7 +14,12 @@ const routes = [
     name: 'Produto',
     component: () => import('@/views/Produto.vue'),
 
-  }
+  },
+  {
+    path: '/produto/:id',
+    name: 'produto-view',
+    component: ProdutoView,
+  },
 ]
 
 const router = createRouter({
