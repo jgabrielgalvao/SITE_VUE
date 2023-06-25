@@ -4,6 +4,31 @@
         "nome_completo": "João Pedro",
         "celular": "16993791185",
         "email": "joao@teste.com",
-        "senha": "1"
+        "senha": "1",
+        "tipo": "cliente"
+    },
+    {
+        "id": 2,
+        "nome_completo": "José",
+        "celular": "16993791185",
+        "email": "jose@teste.com",
+        "senha": "1",
+        "tipo": "admin"
+    },
+    {
+        "id": 3,
+        "nome_completo": "Gabriel",
+        "celular": "16993791185",
+        "email": "gabriel@teste.com",
+        "senha": "1",
+        "tipo": "gerente_prod"
+    },
+    {
+        "id": 4,
+        "nome_completo": "Felipe",
+        "celular": "16993791185",
+        "email": "felipe@teste.com",
+        "senha": "1",
+        "tipo": "gerente_vendas"
     }
 ]

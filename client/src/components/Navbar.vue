@@ -1,22 +1,28 @@
 <template>
-    <v-app-bar color="red pa-2" :elevation="5" scroll-behavior="elevate">
-      <v-row no-gutters justify="center" align="center">
-        <v-col cols="12">
-          <v-title class="text-button text-white" id="titulo">
-            <v-icon @click="toggleDrawer">mdi-menu</v-icon>
-          </v-title>
-        </v-col>
-      </v-row>
-    </v-app-bar>
+    <div>
+      <div>
+        <v-app-bar color="red pa-2" :elevation="4" scroll-behavior="elevate">
+          <v-row no-gutters justify="center" align="center">
+            <v-col cols="12">
+              <v-title class="text-button text-white" id="titulo">
+                <v-icon @click="toggleDrawer">mdi-menu</v-icon>
+              </v-title>
+            </v-col>
+          </v-row>
+        </v-app-bar>
+      </div>
   
-    <v-navigation-drawer v-model="drawerOpen" temporary>
-      <v-list-item v-for="item in menuItems" :key="item.title" :to="item.route">
-        <br>
-        <v-list-item-title>{{ item.title }}</v-list-item-title>
-      </v-list-item>
-    </v-navigation-drawer>
+      <div>
+        <v-navigation-drawer v-model="drawerOpen" temporary>
+          <v-list-item v-for="item in menuItems" :key="item.title" :to="item.route">
+            <br>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item>
+        </v-navigation-drawer>
+      </div>
   
-    <Home ref="Home" v-if="false" />
+      <Home ref="Home" v-if="false" />
+    </div>
   </template>
   
   <script>
@@ -30,10 +36,10 @@
       return {
         drawerOpen: false,
         menuItems: [
-      { title: "Produtos", route: "/produto" },
-      { title: "Início", route: "/inicio" },
-      { title: "Login", route: "/login" }
-    ]
+          { title: "Produtos", route: "/produto" },
+          { title: "Início", route: "/inicio" },
+          { title: "Login", route: "/login" }
+        ]
       };
     },
     methods: {

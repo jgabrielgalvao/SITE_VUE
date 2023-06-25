@@ -1,8 +1,8 @@
 <template>
-  <v-app>
+  <v-app class="corpo">
     <v-main>
       <Navbar />
-        <router-view />
+      <router-view />
       <Footer />
     </v-main>
   </v-app>
@@ -36,5 +36,7 @@ export default ({
 
 
 <style>
-
+.corpo {
+  background-image: url('./assets/industry.png') !important;
+}
 </style>
