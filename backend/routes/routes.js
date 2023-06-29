@@ -26,8 +26,9 @@ const upload = multer({ storage: storage });
 router.get("/produto", ventoController.getAllProducts);
 router.get("/produto/:id", ventoController.getProductById);
 router.get("/picture/:id", ventoController.getProductPictureById);
+router.get("/usuario/:id", ventoController.getUserById);
+router.post("/verificalogin", ventoController.verifyLogin);
 router.post("/produto", upload.single('picture'), ventoController.createProduct);
 router.post("/usuario", ventoController.createUser);
-router.get("/usuario/:id", ventoController.getUserById);
 
 module.exports = router;

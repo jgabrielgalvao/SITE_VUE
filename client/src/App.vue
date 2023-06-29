@@ -1,7 +1,7 @@
 <template>
   <v-app class="corpo">
     <v-main>
-      <Navbar />
+      <Navbar :user-info="userInfo" />
       <router-view />
       <Footer />
     </v-main>

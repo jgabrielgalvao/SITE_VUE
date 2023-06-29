@@ -96,22 +96,34 @@ export default {
 
     methods: {
         onlogin() {
-            if (!this.form) return;
+            const baseURL = 'http://localhost:8081';
 
             this.loading = true;
 
             // Simulando autenticação
 
             setTimeout(() => (this.loading = false), 2000);
+            console.log(this.email, this.password);
+
+            let data = {
+                email: this.email,
+                password: this.password
+            }
+            console.log(data);
+            axios.post(`${baseURL}/verificalogin`, data)
+                .then(response => {
+
+                })
+                .catch(error => {
+                    console.error(error);
+
+                    this.loading = false;
+                });
         },
         oncadastro() {
             const baseURL = 'http://localhost:8081';
-
-            if (!this.form) return;
-
             this.loading = true;
 
-            // Objeto contendo os dados do cadastro
             if (this.location == "Gerente vendas") {
                 this.location = 'gerente_vendas'
             } else if (this.location == "Gerente produção") {
@@ -120,7 +132,11 @@ export default {
                 this.location = 'client'
             } else if (this.location == "Admin") {
                 this.location = 'admin'
+            } else if (this.location == "Cliente") {
+                this.location = 'client'
             }
+
+            // Objeto contendo os dados do cadastro
             const data = {
                 name: this.nome,
                 email: this.email,
@@ -130,13 +146,9 @@ export default {
             };
 
             if (this.location === 'client') {
+
+
                 // Executar o post diretamente para 'Cliente'
-                const data = {
-                    name: this.nome,
-                    email: this.email,
-                    password: this.password,
-                    typeUser: this.location,
-                };
 
                 axios.post(`${baseURL}/usuario`, data)
                     .then(response => {

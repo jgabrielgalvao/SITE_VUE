@@ -68,4 +68,15 @@ async function createProduct(product) {
     }
 }
 
-module.exports = { getAllProducts, getProductById, getProductPictureById, createProduct , getAllUsers, getUserById, createUser};
+// LOGIN
+
+async function verifyLogin(email, password) {
+
+    try {
+        await repository.getLogin(email, password);
+    } catch (error) {
+        console.log('aqui que deu pau otartio',email, error);
+    }
+}
+
+module.exports = { getAllProducts, getProductById, getProductPictureById, createProduct , getAllUsers, getUserById, createUser, verifyLogin};

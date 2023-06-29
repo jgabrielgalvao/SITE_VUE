@@ -45,4 +45,18 @@ async function createProduct(product) {
   });
 }
 
-module.exports = { getAllProducts, getProductsById, createProduct, getAllUsers, getUserById, createUser };
+// LOGIN
+
+async function getLogin(email, password){
+  const user = await Usuario.findOne({
+    where:{
+      email: email,
+      password: password
+    }
+  });
+  console.log('Email:', email);
+  console.log('Password:', password);
+  return user;
+}
+
+module.exports = { getAllProducts, getProductsById, createProduct, getAllUsers, getUserById, createUser, getLogin };

@@ -39,7 +39,7 @@
           { title: "Produtos", route: "/produto" },
           { title: "Início", route: "/inicio" },
           { title: "Login", route: "/login" }
-        ]
+        ],
       };
     },
     methods: {

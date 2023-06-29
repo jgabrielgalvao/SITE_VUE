@@ -59,4 +59,14 @@ const createProduct = (req, res) => {
     ventoService.createProduct(productRequest).then((result) => res.json(result));
 }
 
-module.exports = { getAllUsers, getUserById, createUser, getAllProducts, getProductById, getProductPictureById, createProduct };
+// LOGIN
+
+const verifyLogin = (req, res) => {
+
+    let email_user =  req.body.email;
+    let password_user =  req.body.password;
+
+    ventoService.verifyLogin(email_user, password_user).then((result) => res.json(result));
+}
+
+module.exports = { getAllUsers, getUserById, createUser, getAllProducts, getProductById, getProductPictureById, createProduct, verifyLogin };
