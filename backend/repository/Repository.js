@@ -1,5 +1,4 @@
-const Usuario = require("../model/tabelas");
-const Produto = require("../model/tabelas");
+const { Usuario, Produto } = require("../model/tabelas");
 
 // LOCALIZAR TODOS USUARIOS E PRODUTOS
 
@@ -56,6 +55,8 @@ async function getLogin(email, password){
   });
   console.log('Email:', email);
   console.log('Password:', password);
+
+  console.log('Usuário encontrado:', user);
   return user;
 }
 

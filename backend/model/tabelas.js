@@ -60,4 +60,4 @@ const Produto = database.define("produtos", {
     }
 });
 
-module.exports = Usuario, Produto;
+module.exports = { Usuario, Produto };

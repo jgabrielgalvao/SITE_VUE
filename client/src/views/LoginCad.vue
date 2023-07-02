@@ -19,6 +19,18 @@
                     Cadastro
                 </v-btn>
             </v-form>
+
+            <v-dialog v-model="showAlertLogin" persistent max-width="300">
+                <v-card>
+                    <v-card-text>
+                        Logo ô arrombado!
+                    </v-card-text>
+                    <v-card-actions>
+                        <v-btn color="success" text @click="roteamento()">OK</v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-dialog>
+
         </v-card>
 
         <v-card class="bg-blue mt-5 mx-auto px-6 py-8" max-width="344" v-else variant="outlined">
@@ -67,6 +79,7 @@
 
 <script>
 import axios from 'axios'
+import router from '@/router/index'
 
 export default {
     data: () => ({
@@ -76,6 +89,7 @@ export default {
         loading: false,
         temlogin: false,
         showAlert: false,
+        showAlertLogin: false,
         selecionado: false,
         showMenu: false,
         authPassword: '',
@@ -95,14 +109,18 @@ export default {
     },
 
     methods: {
+        //REDIRECIONAMENTO APÓS LOGIN BEM SUCEDIDO
+        roteamento() {
+            this.showAlertLogin = false;
+        },
+        //LOGIN
+        //////////////////////////
         onlogin() {
             const baseURL = 'http://localhost:8081';
 
             this.loading = true;
 
-            // Simulando autenticação
-
-            setTimeout(() => (this.loading = false), 2000);
+            setTimeout(() => (this.loading = false), 5000);
             console.log(this.email, this.password);
 
             let data = {
@@ -112,6 +130,12 @@ export default {
             console.log(data);
             axios.post(`${baseURL}/verificalogin`, data)
                 .then(response => {
+                    this.showAlertLogin = true;
+                    console.log(response.data.typeUser);
+                    setTimeout(() => {
+                        router.push({ name: 'Home', params: { typeUser: response.data.typeUser } })
+                        this.$emit('update-type-user', response.data.typeUser);
+                    }, 5000);
 
                 })
                 .catch(error => {
@@ -120,6 +144,8 @@ export default {
                     this.loading = false;
                 });
         },
+        //CADASTRO
+        /////////////////////
         oncadastro() {
             const baseURL = 'http://localhost:8081';
             this.loading = true;
@@ -161,7 +187,6 @@ export default {
                         this.location = 'Cliente';
                         this.authPassword = '';
 
-                        this.loading = false;
                     })
                     .catch(error => {
                         console.error(error);
@@ -202,12 +227,16 @@ export default {
                 }
             }
         },
+        //REQUIREMENTO DOS CAMPOS
         required(v) {
             return !!v || 'Campo é obrigatório'
         },
+        //REDIRECIONAMENTO PARA AS PÁGINAS
+        //CADASTRO
         cad() {
             this.temlogin = true;
         },
+        //LOGIN
         login() {
             this.temlogin = false;
         }

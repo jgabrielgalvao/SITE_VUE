@@ -73,7 +73,7 @@ async function createProduct(product) {
 async function verifyLogin(email, password) {
 
     try {
-        await repository.getLogin(email, password);
+        return await repository.getLogin(email, password);
     } catch (error) {
         console.log('aqui que deu pau otartio',email, error);
     }
