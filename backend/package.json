@@ -21,6 +21,7 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
+    "jsonwebtoken": "^9.0.0",
     "nodemon": "^2.0.16",
     "sequelize": "^6.32.0"
   }

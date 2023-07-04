@@ -35,21 +35,9 @@ export default {
   data() {
     return {
       drawerOpen: false,
-      typeUser: 'client',
-      menuItems: []
+      menuItems: [],
+      loggedIn: false
     };
-  },
-  created() {
-    // Importa o objeto $route do Vue Router
-    const { $route } = this;
-    console.log($route.params.typeUser); // Verifica o tipo de usuário da rota atual
-    this.typeUser = $route.params.typeUser;
-    this.updateMenuItems(this.typeUser);
-  },
-  watch: {
-    typeUser(newTypeUser) {
-      this.updateMenuItems(newTypeUser);
-    },
   },
   methods: {
     toggleDrawer() {
@@ -60,28 +48,6 @@ export default {
       console.log("Clicou em", item.title);
       // Implemente a lógica para lidar com o clique nos itens do menu aqui
     },
-    updateMenuItems(newTypeUser) {
-      if (newTypeUser === 'client') {
-        this.menuItems = [
-          { title: 'Início', route: '/inicio' },
-          { title: 'Controle', route: '/controle' },
-          { title: 'Conta', route: '/conta' }
-        ];
-      } else if (newTypeUser === 'admin') {
-        this.menuItems = [
-          { title: 'Acessos', route: '/acessos' },
-          { title: 'Estoque', route: '/estoque' },
-          { title: 'Conta', route: '/conta' },
-          { title: 'Início', route: '/inicio' }
-        ];
-      } else {
-        this.menuItems = [
-          { title: 'Produtos', route: '/produto' },
-          { title: 'Início', route: '/inicio' },
-          { title: 'Login', route: '/login' }
-        ];
-      }
-    }
   }
 };
 </script>

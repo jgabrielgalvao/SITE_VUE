@@ -78,7 +78,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import http from '@/http'
 import router from '@/router/index'
 
 export default {
@@ -116,7 +116,6 @@ export default {
         //LOGIN
         //////////////////////////
         onlogin() {
-            const baseURL = 'http://localhost:8081';
 
             this.loading = true;
 
@@ -128,13 +127,11 @@ export default {
                 password: this.password
             }
             console.log(data);
-            axios.post(`${baseURL}/verificalogin`, data)
+            http.post('/verificalogin', data)
                 .then(response => {
                     this.showAlertLogin = true;
-                    console.log(response.data.typeUser);
                     setTimeout(() => {
-                        router.push({ name: 'Home', params: { typeUser: response.data.typeUser } })
-                        this.$emit('update-type-user', response.data.typeUser);
+                        router.push({ name: 'Home' })
                     }, 5000);
 
                 })
@@ -147,7 +144,6 @@ export default {
         //CADASTRO
         /////////////////////
         oncadastro() {
-            const baseURL = 'http://localhost:8081';
             this.loading = true;
 
             if (this.location == "Gerente vendas") {
@@ -176,7 +172,7 @@ export default {
 
                 // Executar o post diretamente para 'Cliente'
 
-                axios.post(`${baseURL}/usuario`, data)
+                http.post('/usuario', data)
                     .then(response => {
                         this.showAlert = true;
 
@@ -204,7 +200,7 @@ export default {
                         authPassword: this.authPassword,
                     };
 
-                    axios.post(`${baseURL}/usuario`, data)
+                    http.post('/usuario', data)
                         .then(response => {
                             this.showAlert = true;
 
@@ -215,7 +211,6 @@ export default {
                             this.location = 'Cliente';
                             this.authPassword = '';
 
-                            this.loading = false;
                         })
                         .catch(error => {
                             console.error(error);

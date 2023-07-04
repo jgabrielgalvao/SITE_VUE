@@ -1,7 +1,7 @@
 <template>
   <v-app class="corpo">
     <v-main>
-      <Navbar :type-user="typeUser" @update-type-user="typeUser = $event" />
+      <Navbar/>
       <router-view />
       <Footer />
     </v-main>
@@ -20,7 +20,7 @@ export default ({
   },
   data() {
     return {
-      typeUser: 'client',
+
     }
   },
   created() {
