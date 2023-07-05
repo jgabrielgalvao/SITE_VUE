@@ -122,24 +122,24 @@ export default {
             setTimeout(() => (this.loading = false), 5000);
             console.log(this.email, this.password);
 
-            let data = {
-                email: this.email,
-                password: this.password
-            }
-            console.log(data);
-            http.post('/verificalogin', data)
-                .then(response => {
-                    this.showAlertLogin = true;
-                    setTimeout(() => {
-                        router.push({ name: 'Home' })
-                    }, 5000);
+            // let data = {
+            //     email: this.email,
+            //     password: this.password
+            // }
+            // console.log(data);
+            // http.post('/verificalogin', data)
+            //     .then(response => {
+            //         this.showAlertLogin = true;
+            //         setTimeout(() => {
+            //             router.push({ name: 'Home' })
+            //         }, 5000);
 
-                })
-                .catch(error => {
-                    console.error(error);
+            //     })
+            //     .catch(error => {
+            //         console.error(error);
 
-                    this.loading = false;
-                });
+            //         this.loading = false;
+            //     });
         },
         //CADASTRO
         /////////////////////
@@ -158,68 +158,70 @@ export default {
                 this.location = 'client'
             }
 
+            console.log(this.email, this.password);
+
             // Objeto contendo os dados do cadastro
-            const data = {
-                name: this.nome,
-                email: this.email,
-                password: this.password,
-                typeUser: this.location,
-                authPassword: this.authPassword
-            };
+            // const data = {
+            //     name: this.nome,
+            //     email: this.email,
+            //     password: this.password,
+            //     typeUser: this.location,
+            //     authPassword: this.authPassword
+            // };
 
-            if (this.location === 'client') {
+            // if (this.location === 'client') {
 
 
-                // Executar o post diretamente para 'Cliente'
+            //     // Executar o post diretamente para 'Cliente'
 
-                http.post('/usuario', data)
-                    .then(response => {
-                        this.showAlert = true;
+            //     http.post('/usuario', data)
+            //         .then(response => {
+            //             this.showAlert = true;
 
-                        // Limpar os campos do formulário
-                        this.nome = null;
-                        this.email = null;
-                        this.password = null;
-                        this.location = 'Cliente';
-                        this.authPassword = '';
+            //             // Limpar os campos do formulário
+            //             this.nome = null;
+            //             this.email = null;
+            //             this.password = null;
+            //             this.location = 'Cliente';
+            //             this.authPassword = '';
 
-                    })
-                    .catch(error => {
-                        console.error(error);
+            //         })
+            //         .catch(error => {
+            //             console.error(error);
 
-                        this.loading = false;
-                    });
-            } else {
-                // Executar a verificação adicional para outras opções de localização
-                if (this.authPassword === 'ok') {
-                    const data = {
-                        name: this.nome,
-                        email: this.email,
-                        password: this.password,
-                        typeUser: this.location,
-                        authPassword: this.authPassword,
-                    };
+            //             this.loading = false;
+            //         });
+            // } else {
+            //     // Executar a verificação adicional para outras opções de localização
+            //     if (this.authPassword === 'ok') {
+            //         const data = {
+            //             name: this.nome,
+            //             email: this.email,
+            //             password: this.password,
+            //             typeUser: this.location,
+            //             authPassword: this.authPassword,
+            //         };
 
-                    http.post('/usuario', data)
-                        .then(response => {
-                            this.showAlert = true;
+            //         http.post('/usuario', data)
+            //             .then(response => {
+            //                 this.showAlert = true;
 
-                            // Limpar os campos do formulário
-                            this.nome = null;
-                            this.email = null;
-                            this.password = null;
-                            this.location = 'Cliente';
-                            this.authPassword = '';
+            //                 // Limpar os campos do formulário
+            //                 this.nome = null;
+            //                 this.email = null;
+            //                 this.password = null;
+            //                 this.location = 'Cliente';
+            //                 this.authPassword = '';
 
-                        })
-                        .catch(error => {
-                            console.error(error);
+            //             })
+            //             .catch(error => {
+            //                 console.error(error);
 
-                            this.loading = false;
-                        });
-                } else {
-                    alert('Senha não confere');
-                }
+            //                 this.loading = false;
+            //             });
+            //     } else {
+            //         alert('Senha não confere');
+            //     }
             }
         },
         //REQUIREMENTO DOS CAMPOS
@@ -235,8 +237,7 @@ export default {
         login() {
             this.temlogin = false;
         }
-    },
-}
+    }
 </script>
 
 <style></style>
