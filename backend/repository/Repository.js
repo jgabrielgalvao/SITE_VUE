@@ -60,4 +60,17 @@ async function getLogin(email, password){
   return user;
 }
 
-module.exports = { getAllProducts, getProductsById, createProduct, getAllUsers, getUserById, createUser, getLogin };
+async function getUserByEmail(email){
+  const user = await Usuario.findOne({
+    where:{
+      email: email
+    }
+  });
+  console.log('Email:', email);
+
+  console.log('Usuário encontrado:', user);
+  return user;
+}
+
+
+module.exports = { getAllProducts, getProductsById, createProduct, getAllUsers, getUserById, createUser, getLogin, getUserByEmail };

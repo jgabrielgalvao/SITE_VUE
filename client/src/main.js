@@ -7,7 +7,7 @@
 // Components
 import App from './App.vue';
 import route from '@/router/index';
-import store from './stores'
+import store from './store'
 
 // Composables
 import { createApp } from 'vue'

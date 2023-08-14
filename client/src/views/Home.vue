@@ -4,16 +4,38 @@
     </div>
 </template>
 <script>
+import http from '@/http'
+
 export default{
     components: {
     },
     data(){
         return{
-            logado: false
+            logado: false,
+            usuarioLogado: null
         }
     },
-    created(){
-        //função para verificar se já está logado ou não
+    created() {
+        // Verificar se há um token salvo no localStorage ou em algum outro local
+        const token = localStorage.getItem("token");
+
+        if (token) {
+            // Fazer uma chamada à API para obter os detalhes do usuário logado
+            // estou tentando pegar pelo id, mas sem sucesso
+            http.get("/getuser", {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            .then(response => {
+                this.logado = true;
+                this.usuarioLogado = response.data;
+            })
+            .catch(error => {
+                console.log(response.data);
+                console.error("Erro ao obter usuário logado:", error);
+            });
+        }
     }
 }
 </script>

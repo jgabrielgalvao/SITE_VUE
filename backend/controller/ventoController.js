@@ -1,5 +1,6 @@
 const ventoService = require("../service/ventoService");
 const path = require('path');
+const jwt = require('jsonwebtoken');
 
 function getAllUsers(req, res) {
     let users = ventoService.getAllUsers();
@@ -66,7 +67,41 @@ const verifyLogin = (req, res) => {
     let email_user =  req.body.email;
     let password_user =  req.body.password;
 
-    ventoService.verifyLogin(email_user, password_user).then((result) => res.json(result));
+    const token = jwt.sign({ email: email_user, password: password_user }, 'seuSegredo', { expiresIn: '1d' });
+    console.log('Token', token)
+
+    ventoService.verifyLogin(email_user, password_user).then((result) => {
+        const responseObj = {
+            token: token,
+            result: result
+        };
+        res.status(200).json(responseObj);
+    });
 }
 
-module.exports = { getAllUsers, getUserById, createUser, getAllProducts, getProductById, getProductPictureById, createProduct, verifyLogin };
+const getUserDetails = (req, res) => {
+    const userDetails = req.user; // O usuário decodificado está disponível no middleware verifyToken
+    console.log(userDetails);
+    res.status(200).json(userDetails);
+};
+
+const verifyToken = (req, res, next) => {
+    const token = req.headers.authorization;
+    console.log(token);
+
+    if (!token) {
+        return res.status(401).json({ message: 'Token não fornecido' });
+    }
+
+    jwt.verify(token, 'seuSegredo', (err, decoded) => {
+        if (err) {
+            return res.status(403).json({ message: 'Token inválido' });
+        }
+        req.user = decoded;
+        next();
+    });
+}
+
+
+
+module.exports = { getAllUsers, getUserById, createUser, getAllProducts, getProductById, getProductPictureById, createProduct, verifyLogin, verifyToken, getUserDetails };

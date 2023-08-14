@@ -28,6 +28,7 @@ router.get("/produto/:id", ventoController.getProductById);
 router.get("/picture/:id", ventoController.getProductPictureById);
 router.get("/usuario/:id", ventoController.getUserById);
 router.post("/verificalogin", ventoController.verifyLogin);
+router.get("/getuser", ventoController.verifyToken, ventoController.getUserDetails);
 router.post("/produto", upload.single('picture'), ventoController.createProduct);
 router.post("/usuario", ventoController.createUser);
 

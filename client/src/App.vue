@@ -8,12 +8,12 @@
   </v-app>
 </template>
 
-
 <script>
+// Importe os componentes que você deseja usar
 import Navbar from '@/components/Navbar.vue'
 import Footer from '@/components/Footer.vue'
 
-export default ({
+export default {
   components: {
     Navbar,
     Footer
@@ -23,17 +23,16 @@ export default ({
 
     }
   },
-  created() {
-    // Importa o objeto $route do Vue Router
-    const { $route } = this
-    console.log($route.path) // Verifica o caminho da rota atual
-  },
+  // created() {
+  //   // Importa o objeto $route do Vue Router
+  //   const { $route } = this.$route
+  //   console.log($route.path) // Verifica o caminho da rota atual
+  // },
   mounted() {
     window.scrollTo(0, 0);
   }
-})
+}
 </script>
-
 
 <style>
 .corpo {

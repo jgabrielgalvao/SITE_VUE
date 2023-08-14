@@ -6,7 +6,7 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: () => import('@/views/Home.vue'),
+    component: () => import('@/views/Home.vue')
 
   },
   {
@@ -38,5 +38,14 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
 })
+
+router.beforeEach((to, from, next) => {
+  const token = localStorage.getItem('token');
+  if (to.meta.requiresAuth && !token) {
+      next('/login'); // Redirecionar para a página de login se não houver um token válido
+  } else {
+      next();
+  }
+});
 
 export default router
