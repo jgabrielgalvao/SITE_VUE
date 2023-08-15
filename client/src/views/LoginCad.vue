@@ -130,11 +130,9 @@ export default {
             http.post('/verificalogin', data)
                 .then(response => {
                     const token = response.data.token;
-                    const iduser = response.data.id;
                     localStorage.setItem('token', token);
-                    localStorage.setItem('iduser', iduser);
-                    console.log(localStorage['token']);
-                    console.log(localStorage['iduser']);
+                    console.log('token em login cadvue', localStorage['token']);
+                    
 
                     this.showAlertLogin = true;
                     setTimeout(() => {

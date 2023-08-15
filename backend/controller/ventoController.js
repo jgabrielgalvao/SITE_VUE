@@ -1,6 +1,8 @@
 const ventoService = require("../service/ventoService");
 const path = require('path');
 const jwt = require('jsonwebtoken');
+const { decode } = require("punycode");
+const chavePrivada = "seuSegredo";
 
 function getAllUsers(req, res) {
     let users = ventoService.getAllUsers();
@@ -64,44 +66,94 @@ const createProduct = (req, res) => {
 
 const verifyLogin = (req, res) => {
 
-    let email_user =  req.body.email;
-    let password_user =  req.body.password;
-
-    const token = jwt.sign({ email: email_user, password: password_user }, 'seuSegredo', { expiresIn: '1d' });
-    console.log('Token', token)
+    let email_user = req.body.email;
+    let password_user = req.body.password;
 
     ventoService.verifyLogin(email_user, password_user).then((result) => {
-        const responseObj = {
-            token: token,
-            result: result
-        };
-        res.status(200).json(responseObj);
-    });
+
+        let dadosUsuario = {
+            email: email_user,
+            password: password_user
+        }
+        console.log('-------------------------------');
+        console.log("Dados usuário\n", dadosUsuario);
+        console.log('Chave privada: ', chavePrivada);
+        console.log('-------------------------------');
+
+        jwt.sign(dadosUsuario, chavePrivada, (err, token) => {
+            if (err) {
+                res
+                    .status(500)
+                    .json({ mensagem: "Erro ao gerar o JWT" });
+
+                return;
+            }
+            const responseObj = {
+                token: token,
+                result: result
+            };
+
+            console.log('---------------------------------');
+            console.log('Token no controller \n', token);
+            console.log('');
+            console.log('Result', result);
+            console.log('---------------------------------');
+
+            res.set("Authorization",`Bearer ${token}`);
+            res.json(responseObj)
+            res.end();
+
+        });
+    })
 }
 
-const getUserDetails = (req, res) => {
-    const userDetails = req.user; // O usuário decodificado está disponível no middleware verifyToken
-    console.log(userDetails);
-    res.status(200).json(userDetails);
-};
-
 const verifyToken = (req, res, next) => {
+
     const token = req.headers.authorization;
-    console.log(token);
+
+    console.log('-------------------------------------')
+    console.log('verifyToken');
+    console.log('');
+    console.log('-------------------------------------')
+    console.log('tokenb do vericiador de token\n', token);
+    console.log('-------------------------------------')
 
     if (!token) {
         return res.status(401).json({ message: 'Token não fornecido' });
     }
+    else {
+        console.log('tenta aqui')
+        jwt.verify(token, chavePrivada, (err, decoded) => {
+            console.log('começou')
 
-    jwt.verify(token, 'seuSegredo', (err, decoded) => {
-        if (err) {
-            return res.status(403).json({ message: 'Token inválido' });
-        }
-        req.user = decoded;
-        next();
-    });
+            if (err) {
+                console.log('deu erro\n', err);
+                return res.status(403).json({ message: 'Token inválido' });
+            }
+            console.log('-------------------------------------')
+            console.log('token valido se liga', decoded)
+            console.log('-------------------------------------')
+
+            req.userId = decoded.id;
+            next();
+        });
+    }
 }
 
+// const user = (req, res) => {
+//     const jwt = req.headers["authorization"];
+//     const chavePrivada = "seuSegredo";
+
+//     const jwtService = require("jsonwebtoken");
+//     jwtService.verify(jwt, chavePrivada, (err, userInfo) => {
+//         if (err) {
+//             res.status(403).end();
+//             return;
+//         }
+
+//         res.json(userInfo);
+//     });
+// }
 
 
-module.exports = { getAllUsers, getUserById, createUser, getAllProducts, getProductById, getProductPictureById, createProduct, verifyLogin, verifyToken, getUserDetails };
+module.exports = { getAllUsers, getUserById, createUser, getAllProducts, getProductById, getProductPictureById, createProduct, verifyLogin, verifyToken };

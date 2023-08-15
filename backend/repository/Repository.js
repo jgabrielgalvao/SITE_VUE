@@ -53,10 +53,17 @@ async function getLogin(email, password){
       password: password
     }
   });
+
+  console.log('informações de repository');
+  console.log('---------------------------');
+
   console.log('Email:', email);
   console.log('Password:', password);
 
+  console.log('---------------------------');
   console.log('Usuário encontrado:', user);
+  console.log('---------------------------')
+  
   return user;
 }
 
