@@ -88,10 +88,6 @@ const verifyLogin = (req, res) => {
 
                 return;
             }
-            const responseObj = {
-                token: token,
-                result: result
-            };
 
             console.log('---------------------------------');
             console.log('Token no controller \n', token);
@@ -100,6 +96,10 @@ const verifyLogin = (req, res) => {
             console.log('---------------------------------');
 
             res.set("Authorization",`Bearer ${token}`);
+            const responseObj = {
+                token: token,
+                result: result
+            };
             res.json(responseObj)
             res.end();
 
@@ -107,34 +107,43 @@ const verifyLogin = (req, res) => {
     })
 }
 
+function getUserByEmail(req, res) {
+    let email = req.body.email;
+    console.log('email ', email);
+
+    let user = ventoService.getUserByEmail(email);
+    user.then((result) => res.json(result));
+}
+
 const verifyToken = (req, res, next) => {
 
     const token = req.headers.authorization;
 
-    console.log('-------------------------------------')
     console.log('verifyToken');
-    console.log('');
     console.log('-------------------------------------')
-    console.log('tokenb do vericiador de token\n', token);
+    console.log('token do verificador de token: ',token);
     console.log('-------------------------------------')
 
     if (!token) {
         return res.status(401).json({ message: 'Token não fornecido' });
     }
     else {
-        console.log('tenta aqui')
+        console.log('entrou no else');
+
         jwt.verify(token, chavePrivada, (err, decoded) => {
-            console.log('começou')
+
+            console.log('começou o verify');
 
             if (err) {
-                console.log('deu erro\n', err);
+                console.log('deu erro: ', err);
+                console.error('token "invalido":', token)
                 return res.status(403).json({ message: 'Token inválido' });
             }
             console.log('-------------------------------------')
             console.log('token valido se liga', decoded)
             console.log('-------------------------------------')
 
-            req.userId = decoded.id;
+            res.json(decoded); //tenho que mandar essa informação de alguma forma
             next();
         });
     }
@@ -156,4 +165,4 @@ const verifyToken = (req, res, next) => {
 // }
 
 
-module.exports = { getAllUsers, getUserById, createUser, getAllProducts, getProductById, getProductPictureById, createProduct, verifyLogin, verifyToken };
+module.exports = { getAllUsers, getUserById, createUser, getAllProducts, getProductById, getProductPictureById, createProduct, verifyLogin, verifyToken, getUserByEmail };

@@ -17,15 +17,17 @@ export default{
     },
     created() {
         // Verificar se há um token salvo no localStorage ou em algum outro local
-        const token = localStorage.getItem("token");
+        const token = localStorage.getItem('token');
+
         console.log('token em home', token);
 
         if (token) {
+            console.log('passou pela verificação')
             // Fazer uma chamada à API para obter os detalhes do usuário logado
             // estou tentando pegar pelo id, mas sem sucesso
             http.get("/user", {
                 headers: {
-                    Authorization: `Bearer ${token}`
+                    Authorization:`${token}`
                 }
             })
             .then(response => {
@@ -33,7 +35,6 @@ export default{
                 this.usuarioLogado = response.data;
             })
             .catch(error => {
-                console.error(response.data);
                 console.error("Erro ao obter usuário logado:", error);
             });
         }
