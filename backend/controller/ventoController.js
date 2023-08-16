@@ -2,6 +2,7 @@ const ventoService = require("../service/ventoService");
 const path = require('path');
 const jwt = require('jsonwebtoken');
 const { decode } = require("punycode");
+const { Json } = require("sequelize/types/utils");
 const chavePrivada = "seuSegredo";
 
 function getAllUsers(req, res) {
@@ -100,15 +101,18 @@ const verifyLogin = (req, res) => {
                 token: token,
                 result: result
             };
+            let email = dadosUsuario.email
+            console.log('email aqui vacilao', email);
+            localStorage.setItem("email", email);
             res.json(responseObj)
             res.end();
 
         });
     })
 }
-
+    //estou tentando guardar o email para utilizar nesta consulta
 function getUserByEmail(req, res) {
-    let email = req.body.email;
+    let email = localStorage.getItem('email');
     console.log('email ', email);
 
     let user = ventoService.getUserByEmail(email);
