@@ -2,8 +2,9 @@ const ventoService = require("../service/ventoService");
 const path = require('path');
 const jwt = require('jsonwebtoken');
 const { decode } = require("punycode");
-const { Json } = require("sequelize/types/utils");
 const chavePrivada = "seuSegredo";
+
+let cacheEmail = null;
 
 function getAllUsers(req, res) {
     let users = ventoService.getAllUsers();
@@ -27,6 +28,23 @@ function getProductById(req, res) {
     let parsedId = parseInt(req.params.id);
     let product = ventoService.getProductById(parsedId);
     product.then((result) => res.json(result));
+}
+
+///////////////////////////
+
+async function getUserByEmail(req, res) {
+    if (!cacheEmail) {
+        return res.status(400).json({ message: 'E-mail não encontrado no cache' });
+    }
+
+    try {
+        let user = await ventoService.getUserByEmail(cacheEmail);
+        console.log('localizado\n', user.id,'\n', user.name, '\n', user.email, '\n', user.typeUser);
+        res.json(user);
+    } catch (error) {
+        console.error('Erro ao obter usuário pelo e-mail:', error);
+        res.status(500).json({ message: 'Erro ao obter usuário pelo e-mail' });
+    }
 }
 
 //////////////////////////
@@ -65,9 +83,15 @@ const createProduct = (req, res) => {
 
 // LOGIN
 
-const verifyLogin = (req, res) => {
+const verifyLogin = async (req, res) => {
 
     let email_user = req.body.email;
+    cacheEmail = req.body.email;
+
+    usuario = await ventoService.getUserByEmail(JSON.stringify(cacheEmail));
+
+    console.log('Nome: ', usuario.name, '\nTipo Usuario: ', usuario.typeUser);
+
     let password_user = req.body.password;
 
     ventoService.verifyLogin(email_user, password_user).then((result) => {
@@ -82,12 +106,9 @@ const verifyLogin = (req, res) => {
         console.log('-------------------------------');
 
         jwt.sign(dadosUsuario, chavePrivada, (err, token) => {
-            if (err) {
-                res
-                    .status(500)
-                    .json({ mensagem: "Erro ao gerar o JWT" });
 
-                return;
+            if (err) {
+                return res.status(500).json({ mensagem: "Erro ao gerar o JWT" });
             }
 
             console.log('---------------------------------');
@@ -96,27 +117,19 @@ const verifyLogin = (req, res) => {
             console.log('Result', result);
             console.log('---------------------------------');
 
-            res.set("Authorization",`Bearer ${token}`);
+            res.set("Authorization", `Bearer ${token}`);
+
             const responseObj = {
                 token: token,
-                result: result
+                result: result,
             };
-            let email = dadosUsuario.email
-            console.log('email aqui vacilao', email);
-            localStorage.setItem("email", email);
-            res.json(responseObj)
-            res.end();
+            console.log('email aqui vacilao', cacheEmail);
+            res.json(responseObj);
 
         });
-    })
-}
-    //estou tentando guardar o email para utilizar nesta consulta
-function getUserByEmail(req, res) {
-    let email = localStorage.getItem('email');
-    console.log('email ', email);
 
-    let user = ventoService.getUserByEmail(email);
-    user.then((result) => res.json(result));
+        //estou com mais e mais erros, agora não consigo pegar as informações do bendito
+    })
 }
 
 const verifyToken = (req, res, next) => {
@@ -125,7 +138,7 @@ const verifyToken = (req, res, next) => {
 
     console.log('verifyToken');
     console.log('-------------------------------------')
-    console.log('token do verificador de token: ',token);
+    console.log('token do verificador de token: ', token);
     console.log('-------------------------------------')
 
     if (!token) {
@@ -147,26 +160,11 @@ const verifyToken = (req, res, next) => {
             console.log('token valido se liga', decoded)
             console.log('-------------------------------------')
 
+
             res.json(decoded); //tenho que mandar essa informação de alguma forma
-            next();
         });
     }
 }
-
-// const user = (req, res) => {
-//     const jwt = req.headers["authorization"];
-//     const chavePrivada = "seuSegredo";
-
-//     const jwtService = require("jsonwebtoken");
-//     jwtService.verify(jwt, chavePrivada, (err, userInfo) => {
-//         if (err) {
-//             res.status(403).end();
-//             return;
-//         }
-
-//         res.json(userInfo);
-//     });
-// }
 
 
 module.exports = { getAllUsers, getUserById, createUser, getAllProducts, getProductById, getProductPictureById, createProduct, verifyLogin, verifyToken, getUserByEmail };

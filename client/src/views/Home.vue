@@ -1,6 +1,6 @@
 <template>
     <div class="mt-4 p-2">
-        <h1 class="text-center titulo">Seja bem viado</h1>
+        <h1 class="text-center titulo">Seja bem viado, {this.usuarioLogado.name}</h1>
     </div>
 </template>
 <script>
@@ -32,7 +32,8 @@ export default{
             })
             .then(response => {
                 this.logado = true;
-                this.usuarioLogado = response.data;
+                this.usuarioLogado = response;
+                console.log('user: ', this.usuarioLogado);
             })
             .catch(error => {
                 console.error("Erro ao obter usuário logado:", error);
