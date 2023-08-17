@@ -39,7 +39,7 @@ async function getUserByEmail(req, res) {
 
     try {
         let user = await ventoService.getUserByEmail(cacheEmail);
-        console.log('localizado\n', user.id,'\n', user.name, '\n', user.email, '\n', user.typeUser);
+        console.log('localizado\n', user.id, '\n', user.name, '\n', user.email, '\n', user.typeUser);
         res.json(user);
     } catch (error) {
         console.error('Erro ao obter usuário pelo e-mail:', error);
@@ -86,11 +86,14 @@ const createProduct = (req, res) => {
 const verifyLogin = async (req, res) => {
 
     let email_user = req.body.email;
-    cacheEmail = req.body.email;
+    cacheEmail = JSON.stringify(req.body.email);
 
-    usuario = await ventoService.getUserByEmail(JSON.stringify(cacheEmail));
+    console.log('email que peguei do cache', cacheEmail);
 
-    console.log('Nome: ', usuario.name, '\nTipo Usuario: ', usuario.typeUser);
+    let usuario = await ventoService.getUserByEmail(cacheEmail);
+
+    console.log('iei');
+    console.log('Nome: ', usuario, '\nTipo Usuario: ');
 
     let password_user = req.body.password;
 
@@ -147,7 +150,7 @@ const verifyToken = (req, res, next) => {
     else {
         console.log('entrou no else');
 
-        jwt.verify(token, chavePrivada, (err, decoded) => {
+        jwt.verify(token, chavePrivada, async (err, decoded) => {
 
             console.log('começou o verify');
 
@@ -160,8 +163,8 @@ const verifyToken = (req, res, next) => {
             console.log('token valido se liga', decoded)
             console.log('-------------------------------------')
 
-
-            res.json(decoded); //tenho que mandar essa informação de alguma forma
+            const objClient = await ventoService.getUserByEmail(cacheEmail)
+            res.status(200).json({ ...decoded, objClient }); //tenho que mandar essa informação de alguma forma
         });
     }
 }

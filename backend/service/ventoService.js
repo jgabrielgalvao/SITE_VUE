@@ -81,6 +81,8 @@ async function verifyLogin(email, password) {
 
 async function getUserByEmail(email) {
 
+    console.log('email que chega no service ', email);
+    
     try {
         return await repository.getUserByEmail(email);
     } catch (error) {

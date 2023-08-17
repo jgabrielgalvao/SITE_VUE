@@ -68,6 +68,9 @@ async function getLogin(email, password){
 }
 
 async function getUserByEmail(email){
+
+  console.log('email que chega no repository ', email);
+
   const user = await Usuario.findOne({
     where:{
       email: email
