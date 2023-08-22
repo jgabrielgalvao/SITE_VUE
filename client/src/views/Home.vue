@@ -1,6 +1,6 @@
 <template>
     <div class="mt-4 p-2">
-        <h1 class="text-center titulo">Seja bem viado, {this.usuarioLogado.name}</h1>
+        <h1 class="text-center titulo">Seja bem viado, {{ this.usuarioLogado.name }}</h1>
     </div>
 </template>
 <script>
@@ -19,10 +19,7 @@ export default{
         // Verificar se há um token salvo no localStorage ou em algum outro local
         const token = localStorage.getItem('token');
 
-        console.log('token em home', token);
-
         if (token) {
-            console.log('passou pela verificação')
             // Fazer uma chamada à API para obter os detalhes do usuário logado
             // estou tentando pegar pelo id, mas sem sucesso
             http.get("/user", {
@@ -32,7 +29,7 @@ export default{
             })
             .then(response => {
                 this.logado = true;
-                this.usuarioLogado = response;
+                this.usuarioLogado = response.data.objClient;
                 console.log('user: ', this.usuarioLogado);
             })
             .catch(error => {

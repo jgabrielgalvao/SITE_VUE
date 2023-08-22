@@ -80,6 +80,7 @@
 <script>
 import http from '@/http'
 import router from '@/router/index'
+import gb from '@/controller/globalVariables'
 
 export default {
     data: () => ({
@@ -129,10 +130,17 @@ export default {
             console.log(data);
             http.post('/verificalogin', data)
                 .then(response => {
-                    const token = response.data.token;
+                    gb.token = response.data.token;
                     localStorage.setItem('token', token);
-                    console.log('token em login cadvue', localStorage['token']);
-                    
+
+                    gb.usuarioGeral = response.data.result;
+                    gb.usuarioNome = response.data.result.name;
+                    gb.usuarioTipo = response.data.result.typeUser;
+                    gb.usuarioLogado = true;
+
+                    console.log('Usuario em gb: ', gb.usuarioGeral);  
+                    console.log('Nome usuario em gb: ', gb.usuarioNome); 
+                    console.log('Tipo usuario em gb: ', gb.usuarioTipo);                     
 
                     this.showAlertLogin = true;
                     setTimeout(() => {

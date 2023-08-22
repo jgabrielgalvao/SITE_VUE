@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const { decode } = require("punycode");
 const chavePrivada = "seuSegredo";
 
-let cacheEmail = null;
+let cacheUser = 0;
 
 function getAllUsers(req, res) {
     let users = ventoService.getAllUsers();
@@ -28,23 +28,6 @@ function getProductById(req, res) {
     let parsedId = parseInt(req.params.id);
     let product = ventoService.getProductById(parsedId);
     product.then((result) => res.json(result));
-}
-
-///////////////////////////
-
-async function getUserByEmail(req, res) {
-    if (!cacheEmail) {
-        return res.status(400).json({ message: 'E-mail não encontrado no cache' });
-    }
-
-    try {
-        let user = await ventoService.getUserByEmail(cacheEmail);
-        console.log('localizado\n', user.id, '\n', user.name, '\n', user.email, '\n', user.typeUser);
-        res.json(user);
-    } catch (error) {
-        console.error('Erro ao obter usuário pelo e-mail:', error);
-        res.status(500).json({ message: 'Erro ao obter usuário pelo e-mail' });
-    }
 }
 
 //////////////////////////
@@ -86,27 +69,17 @@ const createProduct = (req, res) => {
 const verifyLogin = async (req, res) => {
 
     let email_user = req.body.email;
-    cacheEmail = JSON.stringify(req.body.email);
-
-    console.log('email que peguei do cache', cacheEmail);
-
-    let usuario = await ventoService.getUserByEmail(cacheEmail);
-
-    console.log('iei');
-    console.log('Nome: ', usuario, '\nTipo Usuario: ');
 
     let password_user = req.body.password;
 
     ventoService.verifyLogin(email_user, password_user).then((result) => {
 
+        cacheUser = parseInt(result.id);
+
         let dadosUsuario = {
             email: email_user,
             password: password_user
         }
-        console.log('-------------------------------');
-        console.log("Dados usuário\n", dadosUsuario);
-        console.log('Chave privada: ', chavePrivada);
-        console.log('-------------------------------');
 
         jwt.sign(dadosUsuario, chavePrivada, (err, token) => {
 
@@ -114,19 +87,13 @@ const verifyLogin = async (req, res) => {
                 return res.status(500).json({ mensagem: "Erro ao gerar o JWT" });
             }
 
-            console.log('---------------------------------');
-            console.log('Token no controller \n', token);
-            console.log('');
-            console.log('Result', result);
-            console.log('---------------------------------');
-
             res.set("Authorization", `Bearer ${token}`);
 
             const responseObj = {
                 token: token,
                 result: result,
             };
-            console.log('email aqui vacilao', cacheEmail);
+
             res.json(responseObj);
 
         });
@@ -139,35 +106,25 @@ const verifyToken = (req, res, next) => {
 
     const token = req.headers.authorization;
 
-    console.log('verifyToken');
-    console.log('-------------------------------------')
-    console.log('token do verificador de token: ', token);
-    console.log('-------------------------------------')
-
     if (!token) {
         return res.status(401).json({ message: 'Token não fornecido' });
     }
     else {
-        console.log('entrou no else');
 
         jwt.verify(token, chavePrivada, async (err, decoded) => {
 
-            console.log('começou o verify');
-
             if (err) {
                 console.log('deu erro: ', err);
-                console.error('token "invalido":', token)
+                
                 return res.status(403).json({ message: 'Token inválido' });
             }
-            console.log('-------------------------------------')
-            console.log('token valido se liga', decoded)
-            console.log('-------------------------------------')
 
-            const objClient = await ventoService.getUserByEmail(cacheEmail)
+            const objClient = await ventoService.getUserById(cacheUser);
+
             res.status(200).json({ ...decoded, objClient }); //tenho que mandar essa informação de alguma forma
         });
     }
 }
 
 
-module.exports = { getAllUsers, getUserById, createUser, getAllProducts, getProductById, getProductPictureById, createProduct, verifyLogin, verifyToken, getUserByEmail };
+module.exports = { getAllUsers, getUserById, createUser, getAllProducts, getProductById, getProductPictureById, createProduct, verifyLogin, verifyToken };

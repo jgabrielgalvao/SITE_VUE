@@ -53,34 +53,9 @@ async function getLogin(email, password){
       password: password
     }
   });
-
-  console.log('informações de repository');
-  console.log('---------------------------');
-
-  console.log('Email:', email);
-  console.log('Password:', password);
-
-  console.log('---------------------------');
-  console.log('Usuário encontrado:', user);
-  console.log('---------------------------')
   
   return user;
 }
 
-async function getUserByEmail(email){
 
-  console.log('email que chega no repository ', email);
-
-  const user = await Usuario.findOne({
-    where:{
-      email: email
-    }
-  });
-  console.log('Email:', email);
-
-  console.log('Usuário encontrado:', user);
-  return user;
-}
-
-
-module.exports = { getAllProducts, getProductsById, createProduct, getAllUsers, getUserById, createUser, getLogin, getUserByEmail };
+module.exports = { getAllProducts, getProductsById, createProduct, getAllUsers, getUserById, createUser, getLogin };

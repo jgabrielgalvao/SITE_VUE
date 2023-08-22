@@ -79,15 +79,4 @@ async function verifyLogin(email, password) {
     }
 }
 
-async function getUserByEmail(email) {
-
-    console.log('email que chega no service ', email);
-    
-    try {
-        return await repository.getUserByEmail(email);
-    } catch (error) {
-        console.log('aqui que deu pau vacilao',email, error);
-    }
-}
-
-module.exports = { getAllProducts, getProductById, getProductPictureById, createProduct , getAllUsers, getUserById, createUser, verifyLogin, getUserByEmail};
+module.exports = { getAllProducts, getProductById, getProductPictureById, createProduct , getAllUsers, getUserById, createUser, verifyLogin};
