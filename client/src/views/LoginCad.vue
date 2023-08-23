@@ -131,20 +131,11 @@ export default {
             http.post('/verificalogin', data)
                 .then(response => {
                     gb.token = response.data.token;
-                    localStorage.setItem('token', token);
-
-                    gb.usuarioGeral = response.data.result;
-                    gb.usuarioNome = response.data.result.name;
-                    gb.usuarioTipo = response.data.result.typeUser;
-                    gb.usuarioLogado = true;
-
-                    console.log('Usuario em gb: ', gb.usuarioGeral);  
-                    console.log('Nome usuario em gb: ', gb.usuarioNome); 
-                    console.log('Tipo usuario em gb: ', gb.usuarioTipo);                     
+                    localStorage.setItem('token', token);                  
 
                     this.showAlertLogin = true;
                     setTimeout(() => {
-                        router.push({ name: 'Home' })
+                        router.push({ name: 'Dashboard' })
                     }, 5000);
 
                 })
