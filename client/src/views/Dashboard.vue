@@ -1,6 +1,6 @@
 <template>
     <div class="mt-4 p-2">
-        <h1 class="text-center titulo">Seja bem viado, {{ this.usuarioLogado.name }}</h1>
+        <h1 class="text-center titulo">Seja bem viado, {{ this.gb.usuarioNome }}</h1>
     </div>
 </template>
 <script>
@@ -12,8 +12,6 @@ export default {
     },
     data() {
         return {
-            logado: false,
-            usuarioLogado: null
         }
     },
     created() {
