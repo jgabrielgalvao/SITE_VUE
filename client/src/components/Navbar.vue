@@ -35,8 +35,11 @@ export default {
   data() {
     return {
       drawerOpen: false,
-      menuItems: [],
-      loggedIn: false
+      menuItems: [
+        { title: 'Produtos', route: '/produto' },
+        { title: 'Conta', route: '/dashboard' },
+        { title: 'Home', route: '/inicio' }
+      ]
     };
   },
   methods: {

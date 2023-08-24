@@ -1,20 +1,23 @@
 <template>
     <div class="mt-4 p-2">
-        <h1 class="text-center titulo">Seja bem viado, {{ this.usuarioLogado.name }}</h1>
+        <h1 class="text-center titulo">Seja bem vindo</h1>
     </div>
 </template>
 <script>
-import http from '@/http'
+import gb from '@/controller/globalVariables'
 
 export default{
     components: {
     },
     data(){
         return{
-            logado: false,
-            usuarioLogado: null
         }
     },
+    created(){
+        // if (!gb.usuarioLogado) {
+        //     alert('Você ainda não fez login, faça!');
+        // }
+    }
     // created() {
     //     // Verificar se há um token salvo no localStorage ou em algum outro local
     //     const token = localStorage.getItem('token');

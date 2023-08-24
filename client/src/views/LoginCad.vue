@@ -131,7 +131,9 @@ export default {
             http.post('/verificalogin', data)
                 .then(response => {
                     gb.token = response.data.token;
-                    localStorage.setItem('token', token);                  
+                    gb.usuarioLogado = true;   
+
+                    console.log('token na variavel global: ', gb.token);
 
                     this.showAlertLogin = true;
                     setTimeout(() => {

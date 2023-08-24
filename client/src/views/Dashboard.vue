@@ -1,6 +1,6 @@
 <template>
     <div class="mt-4 p-2">
-        <h1 class="text-center titulo">Seja bem viado, {{ this.gb.usuarioNome }}</h1>
+        <h1 class="text-center titulo">Seja bem vindo ao dash, {{ this.name }}</h1>
     </div>
 </template>
 <script>
@@ -12,28 +12,30 @@ export default {
     },
     data() {
         return {
+            name: null,
         }
     },
     created() {
-        // Verificar se há um token salvo no localStorage ou em algum outro local
-        const token = localStorage.getItem('token');
+        // Verificar se há um token salvo no localStorage ou em algum outro loca
 
-        if (token) {
-            // Fazer uma chamada à API para obter os detalhes do usuário logado
-            // estou tentando pegar pelo id, mas sem sucesso
+        if (gb.token) {
             http.get("/user", {
                 headers: {
-                    Authorization: `${token}`
+                    Authorization: `${gb.token}`
                 }
             })
                 .then(response => {
 
-                    gb.usuarioGeral = response.data.result;
-                    gb.usuarioNome = response.data.result.name;
-                    gb.usuarioTipo = response.data.result.typeUser;
-                    gb.usuarioLogado = true;
+                    gb.usuarioGeral = response.data.objClient;
+                    gb.usuarioNome = response.data.objClient.name;
+                    gb.usuarioTipo = response.data.objClient.typeUser;
 
-                    this.logado = true;
+                    this.name = gb.usuarioNome;
+
+                    console.log("Usuario geral: ", gb.usuarioGeral);
+                    console.log("Usuario nome: ", gb.usuarioNome);
+                    console.log("Usuario tipo: ", gb.usuarioTipo);
+                    console.log("Usuario está logado? ", gb.usuarioLogado);
                 })
                 .catch(error => {
                     console.error("Erro ao obter usuário logado:", error);

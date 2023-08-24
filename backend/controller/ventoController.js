@@ -102,7 +102,7 @@ const verifyLogin = async (req, res) => {
     })
 }
 
-const verifyToken = (req, res, next) => {
+const verifyToken = (req, res) => {
 
     const token = req.headers.authorization;
 

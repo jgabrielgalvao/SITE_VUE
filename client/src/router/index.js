@@ -1,6 +1,7 @@
 // Composables
 import { createRouter, createWebHistory } from 'vue-router'
 import ProdutoView from '../views/ProdutoView.vue';
+import gb from '@/controller/globalVariables';
 
 const routes = [
   {
@@ -30,6 +31,21 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: () => import('@/views/LoginCad.vue'),
+
+  },
+  {
+    path: '/dashboard',
+    name: 'Dashboard',
+    component: () => import('@/views/Dashboard.vue'),
+    beforeEnter: (to, from, next) => {
+      // Verificar se o usuário está autenticado      
+      if (gb.usuarioLogado) {
+        next();
+      } else {
+        alert('você não está logado!');
+        next("/login");
+      }
+    }
 
   },
 ]
