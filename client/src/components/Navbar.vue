@@ -27,6 +27,7 @@
   
 <script>
 import Home from "@/views/Home.vue";
+import gb from '@/controller/globalVariables'
 
 export default {
   components: {

@@ -1,6 +1,7 @@
 <template>
     <div class="mt-4 p-2">
         <h1 class="text-center titulo">Seja bem vindo ao dash, {{ this.name }}</h1>
+        <p v-for="opcao in opcoesUser" :key="opcoesUser">{{ opcao }}</p>
     </div>
 </template>
 <script>
@@ -13,6 +14,7 @@ export default {
     data() {
         return {
             name: null,
+            opcoesUser: []
         }
     },
     created() {
@@ -40,6 +42,10 @@ export default {
                 .catch(error => {
                     console.error("Erro ao obter usuário logado:", error);
                 });
+        }
+
+        if (gb.usuarioTipo == 'client') {
+            this.opcoesUser = ['olá', 'sua mae'];
         }
     }
 }

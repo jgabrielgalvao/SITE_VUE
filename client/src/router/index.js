@@ -7,7 +7,16 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: () => import('@/views/Home.vue')
+    component: () => import('@/views/Home.vue'),
+    beforeEnter: (to, from, next) => {
+      // Verificar se o usuário está autenticado      
+      if (gb.usuarioLogado) {
+        next();
+      } else {
+        alert('você não está logado!');
+        next("/login");
+      }
+    }
 
   },
   {
@@ -36,17 +45,7 @@ const routes = [
   {
     path: '/dashboard',
     name: 'Dashboard',
-    component: () => import('@/views/Dashboard.vue'),
-    beforeEnter: (to, from, next) => {
-      // Verificar se o usuário está autenticado      
-      if (gb.usuarioLogado) {
-        next();
-      } else {
-        alert('você não está logado!');
-        next("/login");
-      }
-    }
-
+    component: () => import('@/views/Dashboard.vue')
   },
 ]
 

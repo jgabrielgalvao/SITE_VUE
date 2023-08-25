@@ -1,7 +1,7 @@
     const Sequelize = require("sequelize");
-    const sequelize = new Sequelize(`ventilas`, `root`, `Guerreiros23`, {
+    const sequelize = new Sequelize(`ventilas`, `root`, `fatec123*`, {
         dialect: 'mysql',
-        host: `172.17.0.2`
+        host: `127.0.0.1`
     });
 
     sequelize.authenticate().then(() => {

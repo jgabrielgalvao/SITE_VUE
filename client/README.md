@@ -1,5 +1,10 @@
 # essentials
 
+## código ip - const sequelize = new Sequelize(`ventilas`, `root`, `Guerreiros23`, {
+## dialect: 'mysql',
+## host: `172.17.0.2`
+## });
+
 ## Project setup
 
 ```
